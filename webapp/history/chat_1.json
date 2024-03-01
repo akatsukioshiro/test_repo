@@ -1,0 +1,19 @@
+{
+  "chats": [
+    {
+      "bot": "Hello Sir! I'm Jynx, The Jenkins Bot!. You may use my help to trigger jobs on Jenkins!"
+    },
+    {
+      "user": "hi"
+    },
+    {
+      "bot": "task done"
+    },
+    {
+      "user": "hi"
+    },
+    {
+      "bot": "task done"
+    }
+  ]
+}

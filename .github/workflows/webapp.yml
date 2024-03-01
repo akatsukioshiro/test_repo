@@ -1,0 +1,33 @@
+name: Hello World
+
+on:
+  workflow_dispatch:
+  #schedule:
+  #  - cron: '*/15 * * * *'  # Run every minute
+  #push:
+  #  branches:
+  #    - main
+
+#env:
+#  print_this: ${{ secrets.PRINT_THIS }}
+#  print_this_var: ${{ vars.PRINT_THIS_VAR }}
+
+jobs:
+  build_webapp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install requirements
+      run: python -m pip install -r requirements.txt
+
+    - name: Run Code
+      run: python scripts/this_code.py
+

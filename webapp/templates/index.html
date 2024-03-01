@@ -1,0 +1,278 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Jynx AI</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <style>
+         body {
+         overflow: hidden;
+         }
+         .main-container {
+         height: 100vh; /* Adjust for navbar and footer heights */
+         overflow: hidden;
+         }
+         .left-sidebar {
+         height: 88vh; /* Adjust for navbar and footer heights */
+         width: 30vw;
+         overflow-y: auto;
+         }
+         .footer {
+         position: fixed;
+         bottom: 0;
+         width: 100%;
+         height: 5vh; /* Height of footer */
+         line-height: 5vh; /* Vertically center text in the footer */
+         background-color: #f5f5f5;
+         }
+         .chat-area-top {
+         height: 80vh; /* Adjust for input area and footer heights */
+         overflow-y: auto;
+         }
+         .input-area {
+         height: 7vh;
+         position: fixed;
+         bottom: 5vh; /* Height of footer */
+         right: 0;
+         width: 75vw; /* Adjust for left sidebar width */
+         background-color: #f5f5f5;
+         }
+         .chat-bubble-container {
+         clear: both;
+         overflow: auto;
+         }
+         .chat-bubble {
+         background-color: #f0f0f0;
+         padding: 10px;
+         margin: 5px;
+         border-radius: 10px;
+         max-width: 70%;
+         }
+         .user-message {
+         float: right;
+         }
+         .bot-message {
+         float: left;
+         }
+         .row {
+         height: 90vh;
+         width: 100vw;
+         }
+         .input-group {
+         width: 60vw;
+         padding: 1vh;
+         }
+	 .load-chat-btn {
+           background-color: #f0f0f0;
+	 }
+	 .load-chat-btn:hover{
+           background-color: #007bff;
+	   color: #fff;
+	 }
+	 .file_select {
+	   background-color: #007bff;
+	 }
+      </style>
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <a class="navbar-brand" href="#">Jynx4Jenkins Chat Interface</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                  <button class="btn btn-primary" id="newChatBtn">New Chat</button>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <div class="container-fluid main-container">
+         <div class="row">
+            <div class="col-lg-3 border-right left-sidebar">
+               <nav class="nav flex-column mt-3" id="chatList">
+                  <!-- List of previous chats will be populated here -->
+               </nav>
+            </div>
+            <div class="col-lg-9">
+               <div class="chat-area-top p-3">
+                  <div class="infinite_page">
+                     <!-- Chat messages will be populated here -->
+                     <div class="chat-bubble-container" id="chatMessages">
+                        <!-- Chat bubbles will be populated here -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="input-area">
+         <div class="container">
+            <div class="row">
+               <div class="col-lg-12">
+                  <div class="input-group">
+                     <input type="text" class="form-control" id="messageInput" placeholder="Type your message...">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" id="sendMessageBtn">Send</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <footer class="footer">
+         <div class="container text-center">
+            Copyright &copy; 2024 by Ashish V Nair. All Rights Reserved.
+         </div>
+      </footer>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
+        var chat_count = 0;
+        var current_chat = "";
+	function chat_load() {
+                var chatName = $(this).text();
+	        if (chatName.trim() != "") {
+		    if (current_chat.trim() != "") {
+		        $(`#${current_chat}`).css("background-color", "");
+                        $(`#${current_chat}`).css("color", "");
+		    }
+                    current_chat = chatName;
+		    $(this).css("background-color", "#007bff");
+                    $(this).css("color", "#fff");
+		}
+                else {
+		    if (current_chat.trim() != "") {
+                        $(".load-chat-btn").css("background-color", "");
+                        $(".load-chat-btn").css("color", "");
+		        $(`#${current_chat}`).css("background-color", "#007bff");
+                        $(`#${current_chat}`).css("color", "#fff");
+		    }
+		}
+
+                if (current_chat.trim() != "") {
+                    $.ajax({
+                        url: '/chat_load',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            'chatName': current_chat
+                        }),
+                        success: function(response) {
+                            var chats = response.chats;
+                            $('.infinite_page').empty(); // Empty the chat area
+                            chats.forEach(function(chat) {
+                                if (chat.hasOwnProperty('user')) {
+                                    displayUserMessage(chat.user);
+                                } else if (chat.hasOwnProperty('bot')) {
+                                    displayBotMessage(chat.bot);
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error loading chat:', error);
+                        }
+                    });
+                }
+	        else {
+		    console.log("empty");
+	        }
+            }
+        $(document).ready(function() {
+            // Fetch chat filenames from Flask and populate left sidebar
+            fetch('/chat_list')
+                .then(response => response.json())
+                .then(data => {
+                    const chatList = document.getElementById('chatList');
+                    data.chatList.forEach(filename => {
+                        const button = document.createElement('button');
+                        //button.classList.add('btn', 'btn-light', 'mb-2', 'load-chat-btn');
+                        button.classList.add('btn', 'mb-2', 'load-chat-btn');
+		        button.id = filename;
+                        button.textContent = filename;
+                        chatList.appendChild(button);
+                    });
+                    chat_count = data.chat_count;
+                });
+
+            // Load Chat button click event
+            $(document).on('click', '.load-chat-btn', chat_load);
+
+
+            // Send Message button click event
+            $('#sendMessageBtn').click(function() {
+		if(current_chat.trim() == ""){
+		    alert("Select a Chat or Create New Chat!");
+		}
+	        else{
+                var message = $('#messageInput').val();
+		if(message.trim() != "") {
+		displayUserMessage(message);
+                // Here you can send the message to Flask for processing
+                $.ajax({
+                    url: '/submit_message',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'message': message,
+                        'chat_name': current_chat
+                    }),
+                    success: function(data) {
+                        //alert('Message received: ' + data.message);
+			if(data.status==true){
+			    displayBotMessage(data.message);
+			}
+		        else if(data.status==false){
+			    displayBotMessage("Fatal Error: No AI Response");
+		        }
+                    }
+                });
+                // Clear the input field after sending the message
+                $('#messageInput').val('');
+	        }
+                else {
+	            $('#messageInput').focus();
+	        }}
+            });
+        });
+
+        // Function to display user message
+        function displayUserMessage(message) {
+            $('.infinite_page').append('<div class="chat-bubble-container"><div class="chat-bubble user-message">' + message + '</div></div>');
+            // Scroll to bottom of chat area
+            $('.chat-area-top').scrollTop($('.chat-area-top')[0].scrollHeight);
+        }
+
+        // Function to display bot message
+        function displayBotMessage(message) {
+            $('.infinite_page').append('<div class="chat-bubble-container"><div class="chat-bubble bot-message">' + message + '</div></div>');
+            // Scroll to bottom of chat area
+            $('.chat-area-top').scrollTop($('.chat-area-top')[0].scrollHeight);
+        }
+        $(document).on('click', '#newChatBtn', function() {
+            fetch('/chat_create')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == true) {
+                        const chatList = document.getElementById('chatList');
+                        const button = document.createElement('button');
+                        button.classList.add('btn', 'mb-2', 'load-chat-btn');
+			button.id = data.chat_name;
+                        button.textContent = data.chat_name;
+                        chatList.appendChild(button);
+			$('.left-sidebar').scrollTop($('.left-sidebar')[0].scrollHeight);
+                        chat_count = data.chat_count;
+                        current_chat = data.chat_name;
+                        $('.infinite_page').empty();
+                        chat_load();
+                    } else {
+                        alert("Some Error");
+                    }
+                });
+        });
+      </script>
+   </body>
+</html>
