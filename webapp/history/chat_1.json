@@ -4,16 +4,28 @@
       "bot": "Hello Sir! I'm Jynx, The Jenkins Bot!. You may use my help to trigger jobs on Jenkins!"
     },
     {
-      "user": "hi"
+      "user": "Hey Jynx, refresh ae06 now!"
     },
     {
-      "bot": "task done"
+      "bot": "Task Status: App AE06 Refresh"
     },
     {
-      "user": "hi"
+      "user": "I want you to deploy code in ae16"
     },
     {
-      "bot": "task done"
+      "bot": "Task Status: App AE16 Deployment"
+    },
+    {
+      "user": "while you are at it, refresh ae16 also"
+    },
+    {
+      "bot": "Task Status: App AE16 Refresh"
+    },
+    {
+      "user": "fantastic!, now i think i want ae06 to also have my code deployed to"
+    },
+    {
+      "bot": "Task Status: App AE06 Deployment"
     }
   ]
 }

@@ -1,6 +1,7 @@
 from webapp.application import app
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os, json
+import requests
 
 app_root = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +14,29 @@ def index():
     return render_template('index.html')
 
 def bot_response(message):
-    return "task done"
+    json_out = {}
+    url = "http://localhost:5885/submit"
+    data = {
+        'user_input': message
+    }
+    try:
+        response = requests.post(url, data=data)
+        resp = json.loads(response.text)
+        print(resp)
+        status = resp.get("status", False)
+        json_out = {
+                       "status": status,
+                       "message": resp.get("name", "warning - no task run.")
+                   }
+        return json_out
+    except Exception as e:
+        print("Error:", e)
+        json_out = {
+                       "status": False,
+                       "message": resp.get("name", "error - no task run.")
+                   }
+        return json_out
+    return json_out
 
 @app.route('/submit_message', methods=['POST'])
 def submit_message():
@@ -31,12 +54,12 @@ def submit_message():
     if chat_data!= {}:
         chat_data["chats"].append({ "user": message })
         b_resp = bot_response(message)
-        chat_data["chats"].append({ "bot": b_resp })
+        chat_data["chats"].append({ "bot": f'Task Status: {b_resp["message"]}' })
         with open(chat_file_path, "w") as f:
             f.write(json.dumps(chat_data, indent=2))
         json_out.update({
-            "status": True,
-            "message": b_resp
+            "status": b_resp["status"],
+            "message": f'Task Status: {b_resp["message"]}'
         })
 
     return json_out

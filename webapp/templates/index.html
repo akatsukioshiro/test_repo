@@ -220,6 +220,7 @@
                         'message': message,
                         'chat_name': current_chat
                     }),
+		    timeout: 300000, // Set timeout to 5 minutes (300,000 milliseconds)
                     success: function(data) {
                         //alert('Message received: ' + data.message);
 			if(data.status==true){
