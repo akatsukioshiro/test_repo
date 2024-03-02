@@ -35,3 +35,14 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
         python -m pip install .
+
+  lint_webapp:
+    name: Lint
+    #flake8 has been used to test code lint sanity
+    needs: build_webapp
+
+    steps:
+    - name: Code Lint
+      run: |
+        flake8
+
