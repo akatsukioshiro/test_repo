@@ -81,7 +81,7 @@ jobs:
       with:
         projectBaseDir: webapp
         args: >
-          -Dsonar.organization=ashish_v_nair
-          -Dsonar.projectKey=akatsukioshiro
+          -Dsonar.organization=akatsukioshiro
+          -Dsonar.projectKey=test_repo
           -Dsonar.python.coverage.reportPaths=coverage.xml
           -Dsonar.verbose=true
