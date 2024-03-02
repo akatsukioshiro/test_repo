@@ -63,3 +63,25 @@ jobs:
       run: |
         python -m flake8
 
+  codequality_webapp:
+    name: CodeQuality
+    needs: build_webapp
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      #Checkout the source code from the repository
+      uses: actions/checkout@v4
+
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master #this is a github repo
+      env:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: webapp
+        args: >
+          -Dsonar.organization=akatsukioshiro
+          -Dsonar.projectKey=test_repo
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.verbose=true
