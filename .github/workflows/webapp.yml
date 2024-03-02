@@ -43,6 +43,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout repository
+      #Checkout the source code from the repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      #Set up Python environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
     - name: Install requirements
       #Install Python dependencies for Flake8
       run: |
