@@ -40,6 +40,7 @@ jobs:
     name: Lint
     #flake8 has been used to test code lint sanity
     needs: build_webapp
+    runs-on: ubuntu-latest
 
     steps:
     - name: Code Lint
