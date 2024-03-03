@@ -1,0 +1,19 @@
+{
+  "chats": [
+    {
+      "bot": "Hello Sir! I'm Jynx, The Jenkins Bot!. You may use my help to trigger jobs on Jenkins!"
+    },
+    {
+      "user": "Hey, can you help deploy code in ae06 please"
+    },
+    {
+      "bot": "Task Status: App AE06 Deployment"
+    },
+    {
+      "user": "hey can you refresh ae06 for me buddy !"
+    },
+    {
+      "bot": "Task Status: App AE06 Refresh"
+    }
+  ]
+}
