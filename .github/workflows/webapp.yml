@@ -83,7 +83,7 @@ jobs:
     - name: Run Tests and generate coverage.xml
       run: |
         python -m pytest
-      continue-on-error: true # Continue to next step even if this step fails
+      #continue-on-error: true # Continue to next step even if this step fails
 
     - name: archive coverage results
       uses: actions/upload-artifact@v4
@@ -91,10 +91,7 @@ jobs:
         name: coverage-report
         path: coverage-reports/coverage.xml
         overwrite: true
-
-    - name: Fail Check
-      run: exit 1  # Fails the job if any previous step has failed
-      if: ${{ failure() }}
+      if: success() || failure()
 
   codequality_jynx:
     name: CodeQuality
