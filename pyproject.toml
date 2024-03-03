@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 
 [tool.pytest.ini_options]
-addopts = "--cov=jynx_ui --cov-report=xml"
+addopts = "--cov=jynx_ui --cov-report=xml:coverage-reports/coverage.xml"
 testpaths = [
     "tests",
 ]
