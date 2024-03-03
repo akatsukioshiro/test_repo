@@ -3,4 +3,4 @@ env/
 *.egg-info/
 src/jynx_ui/__pycache__/
 tests/__pycache__/
-.coverage
+coverage-reports/
