@@ -113,15 +113,18 @@ jobs:
         name: coverage-report
         path: coverage-reports/
 
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master #this is a github repo
-      env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        projectBaseDir: src/jynx_ui
-        args: >
-          -Dsonar.organization=akatsukioshiro
-          -Dsonar.projectKey=akatsukioshiro_test_repo
-          -Dsonar.python.coverage.reportPaths=coverage-reports/coverage.xml
-          -Dsonar.verbose=true
+    - name: abc
+      run: ls -la ${{ github.workspace }}
+
+    #- name: SonarCloud Scan
+    #  uses: sonarsource/sonarcloud-github-action@master #this is a github repo
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+    #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #  with:
+    #    projectBaseDir: src/jynx_ui
+    #    args: >
+    #      -Dsonar.organization=akatsukioshiro
+    #      -Dsonar.projectKey=akatsukioshiro_test_repo
+    #      -Dsonar.python.coverage.reportPaths=coverage-reports/coverage.xml
+    #      -Dsonar.verbose=true
