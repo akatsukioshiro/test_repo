@@ -111,19 +111,14 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: coverage-report
-        path: coverage-reports/coverage.xml
+        path: coverage-reports/
 
     - name: Check downloaded files
       run: ls -la coverage-reports
 
     - name: Check Path
-      run: ls -la
+      run: ls -la coverage-reports/coverage.xml/
 
-    - name: Check Path
-      run: ls -la /github/workspace/
-
-    - name: Check Path
-      run: pwd
 
     #- name: SonarCloud Scan
     #  uses: sonarsource/sonarcloud-github-action@master #this is a github repo
