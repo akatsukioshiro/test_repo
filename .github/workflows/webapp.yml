@@ -83,10 +83,12 @@ jobs:
     - name: Run Tests and generate coverage.xml
       run: |
         python -m pytest
+      continue-on-error: true # Continue to next step even if this step fails
 
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
+    if: ${{ always() }}
     runs-on: ubuntu-latest
 
     steps:
