@@ -121,8 +121,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: ${{ github.workspace }}
+      with:
+        #projectBaseDir: ${{ github.workspace }}
         args: >
           -Dsonar.organization=akatsukioshiro
           -Dsonar.projectKey=akatsukioshiro_test_repo
