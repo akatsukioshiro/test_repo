@@ -55,7 +55,7 @@ jobs:
 
     - name: Code Lint
       run: |
-        python -m flake8
+        python -m flake8 src/jynx_ui
 
   test_jynx:
     name: Test
@@ -81,7 +81,7 @@ jobs:
 
     - name: Run Tests and generate coverage.xml
       run: |
-        pytest
+        python -m pytest
 
   codequality_jynx:
     name: CodeQuality
