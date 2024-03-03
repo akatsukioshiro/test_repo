@@ -1,8 +1,8 @@
 from flask import Flask
-from webapp.config import Config
+from jynx_ui.config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-from webapp import routes
+from jynx_ui import routes
 

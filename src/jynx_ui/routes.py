@@ -1,4 +1,4 @@
-from webapp.application import app
+from jynx_ui.application import app
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os, json
 import requests

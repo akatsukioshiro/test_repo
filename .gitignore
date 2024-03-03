@@ -1,5 +1,4 @@
 build/
 env/
-web_app.egg-info/
-webapp.egg-info/
-webapp/__pycache__/
+*.egg-info/
+src/jynx_ui/__pycache__/
