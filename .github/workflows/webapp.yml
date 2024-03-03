@@ -122,7 +122,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        projectBaseDir: jynx_ui
+        projectBaseDir: src
         args: >
           -Dsonar.organization=akatsukioshiro
           -Dsonar.projectKey=akatsukioshiro_test_repo
