@@ -10,6 +10,7 @@ jobs:
   build_jynx:
     name: Build
     #UI chat Server will be get built here.
+    needs: test_jynx
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +34,6 @@ jobs:
   lint_jynx:
     name: Lint
     #flake8 has been used to test code lint sanity
-    needs: test_jynx
     runs-on: ubuntu-latest
 
     steps:
@@ -59,7 +59,8 @@ jobs:
 
   test_jynx:
     name: Test
-    needs: build_jynx
+    needs: lint_jynx
+    if: ${{ always() }}
     runs-on: ubuntu-latest
 
     steps:

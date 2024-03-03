@@ -1,17 +1,21 @@
 from jynx_ui.application import app
-from flask import Flask, render_template, request, jsonify, send_from_directory
-import os, json
+from flask import render_template, request, jsonify, send_from_directory
+import os
+import json
 import requests
 
 app_root = os.path.dirname(os.path.abspath(__file__))
+
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app_root, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 def bot_response(message):
     json_out = {}
@@ -38,6 +42,7 @@ def bot_response(message):
         return json_out
     return json_out
 
+
 @app.route('/submit_message', methods=['POST'])
 def submit_message():
     json_out = {
@@ -51,10 +56,10 @@ def submit_message():
     chat_file_path = os.path.join(app_root, "history", f"{chat_name}.json")
     with open(chat_file_path, "r") as f:
         chat_data = json.loads(f.read())
-    if chat_data!= {}:
-        chat_data["chats"].append({ "user": message })
+    if chat_data != {}:
+        chat_data["chats"].append({"user": message})
         b_resp = bot_response(message)
-        chat_data["chats"].append({ "bot": f'Task Status: {b_resp["message"]}' })
+        chat_data["chats"].append({"bot": f'Task Status: {b_resp["message"]}'})
         with open(chat_file_path, "w") as f:
             f.write(json.dumps(chat_data, indent=2))
         json_out.update({
@@ -64,6 +69,7 @@ def submit_message():
 
     return json_out
 
+
 @app.route('/chat_list')
 def chat_list():
     json_chat_list = {}
@@ -71,6 +77,7 @@ def chat_list():
     with open(the_path) as f:
         json_chat_list = json.loads(f.read())
     return json_chat_list
+
 
 @app.route('/chat_load', methods=['POST'])
 def chat_load():
@@ -99,7 +106,7 @@ def chat_create():
     the_path = os.path.join(app_root, "chat_list.json")
     with open(the_path) as f:
         json_chat_list = json.loads(f.read())
-    if json_chat_list!={}:
+    if json_chat_list != {}:
         json_chat_list["chat_count"] += 1
         json_chat_list["chatList"].append(f"chat_{json_chat_list['chat_count']}")
         with open(the_path, "w") as f:

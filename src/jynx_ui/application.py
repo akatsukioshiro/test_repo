@@ -5,4 +5,3 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 from jynx_ui import routes
-
