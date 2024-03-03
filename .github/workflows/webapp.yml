@@ -83,6 +83,18 @@ jobs:
     - name: Run Tests and generate coverage.xml
       run: |
         python -m pytest
+      continue-on-error: true # Continue to next step even if this step fails
+
+    - name: archive coverage results
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage.xml
+        path: coverage.xml
+        overwrite: true
+
+    - name: Fail Check
+      run: exit 1  # Fails the job if any previous step has failed
+      if: ${{ failure() }}
 
   codequality_jynx:
     name: CodeQuality
@@ -95,13 +107,11 @@ jobs:
       #Checkout the source code from the repository
       uses: actions/checkout@v4
 
-    #- name: Install tox and any other packages
-    #  run: |
-    #    python -m pip install --upgrade pip
-    #    python -m pip install -r requirements_dev.txt
-
-    #- name: Run tox
-    #  run: tox -e py
+    - name: procure coverage results
+      uses: actions/download-artifact@v4
+      with:
+        name: coverage.xml
+        path: coverage.xml
 
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master #this is a github repo
