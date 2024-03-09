@@ -103,7 +103,7 @@ jobs:
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: ${{ ( env.RUN_CQ == "true" }}
+    if: ${{ ( RUN_CQ == "true" }}
     runs-on: ubuntu-latest
 
     steps:
