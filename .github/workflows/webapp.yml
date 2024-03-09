@@ -7,7 +7,7 @@ on:
       - main
 
 env:    
-  RUN_CQ: ${{ false }}
+  RUN_CQ: ${{ "false" }}
 
 jobs:
   build_jynx:
@@ -64,8 +64,6 @@ jobs:
     name: Test
     needs: build_jynx
     runs-on: ubuntu-latest
-    environment:
-      RUN_CQ: ${{ true }}
 
     steps:
     - name: Checkout repository
@@ -98,10 +96,14 @@ jobs:
         overwrite: true
       if: success() || failure()
 
+    - name: this job ran
+      run: echo "true" >> $RUN_CQ
+      if: success() || failure()
+
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: ${{ ( env.RUN_CQ == true }}
+    if: ${{ ( env.RUN_CQ == "true" }}
     runs-on: ubuntu-latest
 
     steps:
