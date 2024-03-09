@@ -96,7 +96,7 @@ jobs:
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: ${{ always() }}
+    if: ${{ success() || failure() }}
     runs-on: ubuntu-latest
 
     steps:
