@@ -96,7 +96,7 @@ jobs:
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: ${{ !cancelled() }}
+    if: ${{ needs.test_jynx != 'skipped' && needs.test_jynx != 'cancelled' && !cancelled() }}
     runs-on: ubuntu-latest
 
     steps:
