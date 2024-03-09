@@ -93,10 +93,14 @@ jobs:
         overwrite: true
       if: success() || failure()
 
+    - name: Job Trigger Status
+      run: echo "::set-output name=run_status::true"
+      if: success() || failure()
+
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: ${{ needs.test_jynx != 'skipped' && needs.test_jynx != 'cancelled' && !cancelled() }}
+    if: ${{ needs.test_jynx.outputs.run_status == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
