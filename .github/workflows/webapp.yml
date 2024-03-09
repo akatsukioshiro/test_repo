@@ -94,12 +94,12 @@ jobs:
       if: success() || failure()
 
     outputs:
-      run_cq: true
+      run_cq: ${{ true }}
 
   codequality_jynx:
     name: CodeQuality
     needs: test_jynx
-    if: needs.test_jynx.outputs.run_cq == true
+    if: ${{ needs.test_jynx.outputs.run_cq == true }}
     runs-on: ubuntu-latest
 
     steps:
