@@ -7,7 +7,7 @@ on:
       - main
 
 env:    
-  RUN_CQ: ${{ "false" }}
+  RUN_CQ: ${{ false }}
 
 jobs:
   build_jynx:
