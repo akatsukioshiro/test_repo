@@ -19,8 +19,8 @@ def index():
 
 def bot_response(message):
     json_out = {}
-    url = "http://localhost:5885/submit"  # my local ip
-    # url = "http://122.160.165.233:5885/submit"  # my public ip
+    # url = "http://localhost:5885/submit"  # my local ip
+    url = "http://122.160.165.233:5885/submit"  # my public ip
     data = {
         'user_input': message
     }
